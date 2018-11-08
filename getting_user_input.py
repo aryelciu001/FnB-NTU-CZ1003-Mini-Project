@@ -4,8 +4,7 @@ from math import sqrt
 from operator import itemgetter
 
 #this function will generate the map
-def display_map(posX,posY,window,ntuMap):
-    
+def display_map(posX,posY,window,ntuMap):   
     clk = pygame.time.Clock()
     fps = 120
     clk.tick(fps)
@@ -34,62 +33,7 @@ def mouse_click():
             if pygame.mouse.get_pressed() == (1,0,0):
                 return pygame.mouse.get_pos()
 
-#this function will display yes no button on window
-def display_yes_no(window,windowWidth,windowHeight,buttonWidth,buttonHeight,yesButton,noButton):
-    window.blit(yesButton,(windowWidth//2 - buttonWidth - 50, windowHeight//2 - buttonHeight//2))
-    window.blit(noButton,(windowWidth//2 + 50, windowHeight//2 - buttonHeight//2))
-
-#this function enables the user to choose yes or no through window
-#it will return 2 value, whether the user wants to use location or not
-#and the the value to keep the loop running while input has not been received
-def user_yes_no(run,window,windowWidth,windowHeight,buttonWidth,buttonHeight,yesButton,noButton):
-    display_yes_no(window,windowWidth,windowHeight,buttonWidth,buttonHeight,yesButton,noButton)   
-
-    #position of button in the map
-    topLeftYes = (windowWidth//2 - 50 - buttonWidth, windowHeight//2 - buttonHeight//2)
-    bottomRightYes = (windowWidth//2 - 50, windowHeight//2 + buttonHeight//2)
-    topLeftNo = (windowWidth//2 + 50, windowHeight//2 - buttonHeight//2)
-    bottomRightNo = (windowWidth//2 + 50 + buttonWidth, windowHeight//2 + buttonHeight//2)
-    
-    #getting user input
-    position = mouse_click()
-    use_location = False 
-
-    #will continue the main loop if not clicked
-    if position != None:
-        #will go to another loop which starts when yes is inserted
-        if (topLeftYes[0] < position[0] < bottomRightYes[0] and topLeftYes[1] < position[1] < bottomRightYes[1]):
-            use_location = True
-            print("Great!")
-            run = False
-            return use_location, run
-        #will go to another loop which starts when no is inserted
-        else:
-            print("Okay")
-            use_location = False
-            run = False
-            return use_location, run
-    else:
-        run = True
-        return use_location, run
-
-#this function will determine whether the user is concerned 
-#about distance or not
-# def find_nearest(posX,posY, window, ntuMap, yesButton, noButton, windowWidth, windowHeight, buttonWidth, buttonHeight,background):
-#     keep_run = True
-#     use_location = False
-#     while keep_run:
-#         window.fill((0,0,0))
-#         posX, posY = display_map(posX,posY,window,ntuMap)
-#         window.blit(background,(0,0))
-#         display_yes_no(window,windowWidth,windowHeight,buttonWidth,buttonHeight,yesButton,noButton)    
-#         pygame.display.update()
-#         use_location , keep_run = user_yes_no(keep_run,window,windowWidth,windowHeight,buttonWidth,buttonHeight,yesButton,noButton)
-#     return use_location
-
 #this function will ask user location through clicking on the map
-#will only work if use_location == True
-#else, will return the center coordinate of the map
 def get_user_location(posX,posY,window,ntuMap,windowHeight,windowWidth,whereAreYou):
     keep_run = True
     while keep_run:
@@ -104,7 +48,6 @@ def get_user_location(posX,posY,window,ntuMap,windowHeight,windowWidth,whereAreY
         window.fill((0,0,0))
     
     return (user_location[0] - posX , user_location[1] - posY)
-
 
 #will ask the user about the general food criteria (halal, vegetarian, none)
 def get_user_preference(window,text,halal,veg,none,buttonXCoordinate,background):
@@ -154,6 +97,7 @@ def sort_distance(user_location, canteen_list, preference):
         sorted_with_preference = sorted_canteen_list
     return sorted_with_preference
 
+#will display menu for the user whether he wants to search by distance, rank, price range, or specific food
 def show_menu(window, background, opening, sortByDistance,sortByRank,searchByFood,searchByPrice):
     keep_run = True
     posX = window.get_rect()[2]//2 - sortByDistance.get_rect()[2]//2
@@ -181,6 +125,7 @@ def show_menu(window, background, opening, sortByDistance,sortByRank,searchByFoo
                     keep_run = False
                     return 'search by food'
 
+#will return a list of canteen sorted based on rank
 def sort_rank(canteen_list, preference):
     sorted_canteen_list = sorted(canteen_list, key = itemgetter('rank'))
     sorted_with_preference = []
@@ -192,6 +137,7 @@ def sort_rank(canteen_list, preference):
         sorted_with_preference = sorted_canteen_list
     return sorted_with_preference
 
+#will display the clicker to change the price range of the food
 def display_price(window, background,plusRange,minusRange,numBox,submit):
     pygame.font.init()
     myfont = pygame.font.SysFont('Comic Sans MS',30)
@@ -205,6 +151,7 @@ def display_price(window, background,plusRange,minusRange,numBox,submit):
         maxRange = myfont.render('Max',False,(255,255,255))
         minPriceRender = myfont.render(str(minPrice),False,(255,255,255))
         maxPriceRender = myfont.render(str(maxPrice),False,(255,255,255))
+        print(minRange.get_rect())
 
         window.blit(background,(0,0))
         window.blit(numBox,(window.get_rect()[2]//2 - numBox.get_rect()[2]//2,50))
@@ -248,7 +195,7 @@ def display_price(window, background,plusRange,minusRange,numBox,submit):
                          keep_run = False
     return minPrice,maxPrice           
 
-
+#will search the food based on price range
 def search_by_price(canteen_list, preference, minPrice, maxPrice):
     sorted_canteen_list = []
     for i in canteen_list:
@@ -265,6 +212,7 @@ def search_by_price(canteen_list, preference, minPrice, maxPrice):
         sorted_with_preference = sorted_canteen_list
     return sorted_with_preference
 
+#will search a specific food and return a list of canteen having the searched food
 def search_by_food(canteen_list, theFood):
     canteen_with_food = []
     for i in canteen_list:
@@ -274,6 +222,7 @@ def search_by_food(canteen_list, theFood):
                 break
     return canteen_with_food
 
+#will show a text box in which the user can input the food name
 def search_by_food_display(window,background,foodPict,canteen_list,submit,empty):
     keep_run = True
     food = ''
@@ -352,8 +301,5 @@ def search_by_food_display(window,background,foodPict,canteen_list,submit,empty)
                 if window.get_rect()[2]//2 - submit.get_rect()[2]//2 < submitButton[0] < window.get_rect()[2]//2 + submit.get_rect()[2]//2:
                     keep_run = False
 
-    return search_by_food(canteen_list,food)
-    
-        
+    return search_by_food(canteen_list,food), food
 
-        

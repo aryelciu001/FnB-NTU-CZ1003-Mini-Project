@@ -1,3 +1,5 @@
+#this is the database containing the data of each canteen
+
 canteen1={
     'name':'Canteen 1',
     'coordinate':(491,461), 
@@ -84,7 +86,7 @@ mcdonald={
     'coordinate':(215,444), 
     'food':{'McDouble':3.60,'McChicken':3.00,'Big Mac':6.50, 'Samurai Beef':8.50}, 
     'rank':6, 
-    'operating_hours3':'7:00-24:00',
+    'operating_hours':'7:00-24:00',
     'halal':True,
     'veg':False}
 
@@ -93,7 +95,7 @@ northspinefoodcourt={
     'coordinate':(215,444), 
     'food':{'Chicken Rice':3.60,'Laksa':3.00,'Mee Goreng':6.50, 'Chicken Chop':5.00}, 
     'rank':4, 
-    'operating_hours3':'7:00-21:00',
+    'operating_hours':'7:00-21:00',
     'halal':True,
     'veg':False}
 
@@ -102,8 +104,18 @@ tamarindfoodcourt={
     'coordinate':(363,415), 
     'food':{'Chicken Rice':3.20,'Ayam Pangang':4.50,'Mala Hotpot':6.50, 'Chicken Chop':6.00}, 
     'rank':2, 
-    'operating_hours3':'7:00-21:00',
+    'operating_hours':'7:00-21:00',
     'halal':False,
     'veg':True}
 
-canteen_list=[canteen1, canteen2, canteen9, canteen11, canteen13, canteen14, canteen16, northhillcanteen, quadcafe, mcdonald, northspinefoodcourt, tamarindfoodcourt]
+koufu={
+    'name':'Koufu',
+    'coordinate':(322,677), 
+    'food':{'Chicken Rice':3.60,'Laksa':3.00,'Mee Goreng':6.50}, 
+    'rank':14, 
+    'operating_hours':'8:00-22:00',
+    'halal':True,
+    'veg':True}
+
+
+canteen_list=[canteen1, canteen2, canteen9, canteen11, canteen13, canteen14, canteen16, northhillcanteen, quadcafe, mcdonald, northspinefoodcourt, tamarindfoodcourt,koufu]
